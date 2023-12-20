@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="site.css">
+    <link rel="icon" href="images/leaf.png" type="images/x-icon">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>LEAFY</title>
+    <style>
+   body {
+            font-family: Arial;
+            font-size: 17px;
+            padding: 8px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        .row {
+            display: flex;
+            flex-wrap: wrap;
+            max-width: 800px;
+        }
+
+        .col-25 {
+            flex: 0 0 25%;
+            padding: 0 16px;
+            margin-bottom: 20px;
+        }
+
+        .col-50 {
+            flex: 0 0 50%;
+            padding: 0 16px;
+            margin-bottom: 20px;
+        }
+
+        .col-75 {
+            flex: 0 0 75%;
+            padding: 0 16px;
+        }
+
+        .container {
+            background-color: #f2f2f2;
+            padding: 5px 20px 15px 20px;
+            border: 1px solid lightgrey;
+            border-radius: 3px;
+        }
+
+        input[type=text] {
+            width: 100%;
+            margin-bottom: 20px;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+
+        label {
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .icon-container {
+            margin-bottom: 20px;
+            padding: 7px 0;
+            font-size: 17px;
+        }
+
+        .btn {
+            background-color: #04AA6D;
+            color: white;
+            padding: 12px;
+            margin: 10px 0;
+            border: none;
+            width: 100%;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 17px;
+        }
+
+        .btn:hover {
+            background-color: #45a049;
+        }
+
+        a {
+            color: #2196F3;
+        }
+
+        hr {
+            border: 1px solid lightgrey;
+        }
+
+        span.price {
+            float: right;
+            color: grey;
+        }
+
+        /* Responsive layout - when the screen is less than 800px wide, make the two columns stack on top of each other instead of next to each other (also change the direction - make the "cart" column go on top) */
+        @media (max-width: 800px) {
+            .row {
+                flex-direction: column-reverse;
+            }
+
+            .col-25,
+            .col-50,
+            .col-75 {
+                flex: 0 0 100%;
+            }
+        }
+
+        #order-summary {
+            padding: 10px;
+        }
+
+        /* Adjustments for small screens */
+        @media (max-width: 800px) {
+            .row {
+                flex-direction: column-reverse;
+            }
+
+            .col-25 {
+                margin-bottom: 20px;
+            }
+        }
+
+
+            #order-summary {
+                background-color: #fff;
+                border: 1px solid #ddd;
+                padding: 20px;
+                margin-top: 20px;
+                border-radius: 5px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                width: 100%; /* Adjust the width as needed */
+            }
+
+            #order-summary h2 {
+                font-size: 1.5em;
+                color: #333;
+                margin-bottom: 10px;
+            }
+
+            #order-summary-list {
+                list-style: none;
+                padding: 0;
+                margin: 0;
+            }
+
+            #order-summary-list li {
+                border-bottom: 1px solid #ddd;
+                padding: 10px 0;
+            }
+
+            #order-summary-list li:last-child {
+                border-bottom: none;
+            }
+
+            #order-summary-total {
+                font-size: 1.2em;
+                color: #04AA6D;
+                font-weight: bold;
+            }
+
+            #card-payment-details {
+                        display: none;
+            }
+
+.modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(240, 244, 242, 0.9); /* Adjust the color as needed */
+            padding-top: 60px;
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: none;
+            width: 50%;
+            text-align: center;
+            position: relative;
+            color: #04AA6D; 
+        }
+
+        .close {
+            display: none; /* Set display to none */
+            color: #fff; /* Adjust the color as needed */
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <!-- Topbar -->
+    <div class="sidebar">
+        <!-- logo --> 
+        <div class="sidelogo">
+            <a href="index.html"><img src="images/logo.png" class="logo"></a>
+           
+        </div>
+        <!-- List of menus -->
+        <div class="sidebar-menus">
+            
+            <a href="homepage.html"><ion-icon name="receipt-outline"></ion-icon>Homepage</a>
+            <a href="index.html"><ion-icon name="wallet-outline"></ion-icon>Products</a>
+            <a href="aboutus.html"><ion-icon name="notifications-outline"></ion-icon>About us</a>
+           
+        </div>
+        <!-- Logout -->
+        <div class="sidebar-logout">
+            <a href="#"><ion-icon name="log-out-outline"></ion-icon>Logout</a>
+        </div>
+    </div>
+
+    <!-- Content -->
+    <body>
+
+        <div id="myModal" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="document.getElementById('myModal').style.display='none'">&times;</span>
+                <p>Your Order Is Placed!</p>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-75">
+                <div class="container">
+                    <form onsubmit="showModal();">
+                        <div class="row">
+                            <div class="col-50">
+                                <h3>Billing Address</h3>
+                                <!-- Existing billing address fields -->
+                                <label for="fname"><i class="fa fa-user"></i> Full Name</label>
+                                <input type="text" id="fname" name="firstname" placeholder="John Weak" required>
+                                <label for="email"><i class="fa fa-envelope"></i> Email</label>
+                                <input type="text" id="email" name="email" placeholder="john69@weak.com" required>
+                                <label for="province"><i class="fa fa-map"></i> Province</label>
+                                <input type="text" id="province" name="province" placeholder="Your Province" required>
+                                <label for="city"><i class="fa fa-institution"></i> City</label>
+                                <input type="text" id="city" name="city" placeholder="City" required>
+                                <label for="zip">Zip</label>
+                                <input type="text" id="zip" name="zip" placeholder="0000" required>
+                            </div>
+                            <div class="col-50">
+                                <h3>Payment</h3>
+                                <label for="payment-method">Select Payment Method:</label>
+
+                                <div>
+                                    <input type="radio" id="cash-on-delivery" name="payment-method" value="cash"
+                                        onchange="toggleCardPaymentDetails()">
+                                    <label for="cash-on-delivery">Cash on Delivery</label>
+                                </div>
+
+
+                                    <div>
+                                        <input type="radio" id="card-payment" name="payment-method" value="card" checked
+                                            onchange="toggleCardPaymentDetails()">
+                                        <label for="card-payment">Card Payment</label>
+                                    </div>
+                                
+                                <!-- Card payment details -->
+                                <div id="card-payment-details">
+                                    <label for="fname">Accepted Cards</label>
+                                    <div class="icon-container">
+                                        <i class="fa fa-cc-visa" style="color:navy;"></i>
+                                        <i class="fa fa-cc-amex" style="color:blue;"></i>
+                                        <i class="fa fa-cc-mastercard" style="color:red;"></i>
+                                        <i class="fa fa-cc-discover" style="color:orange;"></i>
+                    
+                                    <label for="cname">Name on Card</label>
+                                    <input type="text" id="cname" name="cardname" placeholder="John More Doe" >
+                                    <label for="ccnum">Credit card number</label>
+                                    <input type="text" id="ccnum" name="cardnumber"
+                                        placeholder="1111-2222-3333-4444" >
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <label>
+                            <input type="checkbox" checked="checked" name="sameadr" id="sameadr"> Shipping address same as billing
+                        </label>
+                        <input type="submit" value="Continue to checkout" class="btn">
+                    </form>
+                </div>
+            </div>
+        </div>
+                    <div id="order-summary" class="col-25">
+                        <h2>Order Summary</h2>
+                        <ul id="order-summary-list"></ul>
+                        <hr>
+                        <p>Total: <span id="order-summary-total">0.00 PHP</span></p>
+                    </div>
+    </div>
+
+</body>
+<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+<script src="site.js"></script>
+<script src="checkout.js"></script>
+
+
+</html>
